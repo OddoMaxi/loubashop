@@ -284,7 +284,7 @@ input, textarea { font-family: inherit; }
 .hero-img {
   width: 100%; height: 100%; object-fit: cover;
   object-position: center;
-  filter: brightness(0.35) saturate(0.8);
+  filter: brightness(0.85) saturate(1);
   transform: scale(1.05);
   animation: heroZoom 20s ease-in-out infinite alternate;
 }
@@ -296,9 +296,9 @@ input, textarea { font-family: inherit; }
   position: absolute; inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(10,10,15,0.9) 0%,
-    rgba(10,10,15,0.5) 50%,
-    rgba(10,10,15,0.7) 100%
+    rgba(10,10,15,0.5) 0%,
+    rgba(10,10,15,0.2) 50%,
+    rgba(10,10,15,0.4) 100%
   );
 }
 
