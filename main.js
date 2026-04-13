@@ -34,9 +34,39 @@ const products = [
   },
   {
     id: 5, name: 'Bobines & Accessoires Minelab', cat: 'Accessoires Officiels',
-    price: 'Demander un devis', img: null,
+    price: 'Demander un devis', img: 'GPZ19_LandingPage_Transparent.png',
     desc: 'Bobines de recherche, protections, chargeurs et accessoires 100% originaux Minelab pour optimiser vos performances sur le terrain.',
     stars: 5, reviews: 29
+  },
+  {
+    id: 6, name: 'Minelab CTX 3030', cat: 'Série CTX – Multi-fréquences',
+    price: 'Demander un devis', img: 'CTX-3030_ProductImage.png',
+    desc: 'Détecteur multi-fréquences avancé avec écran couleur GPS intégré. Discrimination et profondeur exceptionnelles sur tous terrains.',
+    stars: 5, reviews: 19
+  },
+  {
+    id: 7, name: 'Minelab E-TRAC / Safari', cat: 'Série E-TRAC',
+    price: 'Demander un devis', img: 'ETRAC-SAFARI__ControlBoxCover_LandingPage_Transparent.png',
+    desc: 'Technologie Full Band Spectrum (FBS). Discrimination bidimensionnelle, idéal pour terrains à forte densité de déchets métalliques.',
+    stars: 5, reviews: 14
+  },
+  {
+    id: 8, name: 'Minelab Pro-Find 40', cat: 'Accessoires Officiels',
+    price: 'Demander un devis', img: 'pro-find40_web.png',
+    desc: 'Sonde de localisation (pinpointer) waterproof pour identifier précisément la position exacte de vos cibles sur le terrain.',
+    stars: 5, reviews: 36
+  },
+  {
+    id: 9, name: 'Minelab PRO-Gold', cat: 'Accessoires Officiels',
+    price: 'Demander un devis', img: 'PRO-Gold_LandingPage_Transparent.png',
+    desc: 'Kit de récupération de l\'or alluvionnaire professionnel. Maximisez votre rendement de paillettes et pépites.',
+    stars: 4, reviews: 11
+  },
+  {
+    id: 10, name: 'Chargeur GPZ BC10', cat: 'Accessoires Officiels',
+    price: 'Demander un devis', img: 'GPZ_BC10_LandingPage_Transparent.png',
+    desc: 'Chargeur de base officiel Minelab pour détecteurs série GPZ. Recharge complète et sécurisée, compatible panneau solaire.',
+    stars: 5, reviews: 8
   }
 ];
 
