@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>LoubaShop – Détail Produit</title>
+  <meta name="description" content="Détail du produit Minelab – LoubaShop, revendeur officiel en Afrique de l'Ouest." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="product.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="brand-icon">◆</span>
+        <span class="brand-name">LOUBA<span class="brand-accent">SHOP</span></span>
+      </div>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#accueil">Accueil</a>
+        <a href="index.html#produits">Produits</a>
+        <a href="index.html#categories">Catégories</a>
+        <a href="index.html#avantages">Avantages</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-cart" id="cartBtn" aria-label="Panier">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="btn-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Mon Panier</h3>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Votre panier est vide.</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">0 FCFA</span>
+      </div>
+      <button class="btn-checkout" id="checkoutBtn">Commander Maintenant</button>
+    </div>
+  </aside>
+
+  <!-- ===== CHECKOUT MODAL ===== -->
+  <div class="modal-overlay" id="checkoutOverlay">
+    <div class="modal checkout-modal" id="checkoutModal">
+      <button class="modal-close" id="checkoutClose">✕</button>
+      <div id="checkoutStep1">
+        <div class="modal-content">
+          <p class="section-eyebrow" style="margin-bottom:8px">Validation de commande</p>
+          <h3 style="font-family:var(--font-serif);font-size:1.6rem;color:var(--white);font-weight:300;margin-bottom:6px">Vos coordonnées</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:24px">Remplissez ce formulaire et nous vous contacterons rapidement pour confirmer votre commande.</p>
+          <div class="checkout-recap" id="checkoutRecap"></div>
+          <form id="checkoutForm" onsubmit="submitOrder(event)">
+            <div class="form-row">
+              <div class="form-group"><label for="oName">Nom complet *</label><input type="text" id="oName" placeholder="Votre nom" required /></div>
+              <div class="form-group"><label for="oPhone">Téléphone / WhatsApp *</label><input type="tel" id="oPhone" placeholder="+224 XXX XXX XXX" required /></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="oCountry">Pays *</label>
+                <select id="oCountry" required>
+                  <option value="" disabled selected>Sélectionner votre pays</option>
+                  <option value="Guinée">Guinée</option>
+                  <option value="Sierra Leone">Sierra Leone</option>
+                  <option value="Liberia">Liberia</option>
+                  <option value="Guinée-Bissau">Guinée-Bissau</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+              <div class="form-group"><label for="oCity">Ville *</label><input type="text" id="oCity" placeholder="Votre ville" required /></div>
+            </div>
+            <div class="form-group"><label for="oAddress">Adresse de livraison</label><input type="text" id="oAddress" placeholder="Quartier, rue, point de repère…" /></div>
+            <div class="form-group"><label for="oNote">Note / Question</label><textarea id="oNote" rows="3" placeholder="Questions sur la livraison, délais ?"></textarea></div>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:8px">✦ Confirmer ma commande</button>
+          </form>
+        </div>
+      </div>
+      <div id="checkoutStep2" style="display:none">
+        <div class="modal-content" style="text-align:center;padding:60px 40px">
+          <div class="success-icon">✦</div>
+          <h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--white);font-weight:300;margin:20px 0 12px">Commande reçue !</h3>
+          <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;max-width:380px;margin:0 auto 8px">Notre équipe vous contactera dans les <strong style="color:var(--gold)">24 heures</strong> via WhatsApp ou téléphone.</p>
+          <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:32px">📞 <strong>+224 627 488 219</strong> &nbsp;|&nbsp; <strong>+1 720 476 2424</strong></p>
+          <button class="btn-primary" onclick="closeCheckout()" style="margin:0 auto">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PRODUCT DETAIL ===== -->
+  <main class="pd-main" id="pdMain">
+    <!-- Breadcrumb -->
+    <div class="pd-breadcrumb">
+      <div class="container">
+        <a href="index.html">Accueil</a>
+        <span>›</span>
+        <a href="index.html#produits">Produits</a>
+        <span>›</span>
+        <span id="pdBreadName">Chargement…</span>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+      <div class="pd-grid" id="pdGrid">
+        <!-- JS injects content here -->
+        <div class="pd-loading">
+          <div class="pd-spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features + Specs -->
+    <div class="pd-details container" id="pdDetails" style="display:none">
+      <div class="pd-details-grid">
+        <div class="pd-specs-wrap">
+          <h2 class="pd-section-title">Spécifications techniques</h2>
+          <table class="pd-specs" id="pdSpecs"></table>
+        </div>
+        <div class="pd-features-wrap">
+          <h2 class="pd-section-title">Points forts</h2>
+          <ul class="pd-features" id="pdFeatures"></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related products -->
+    <div class="pd-related" id="pdRelated" style="display:none">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-eyebrow">Vous aimerez aussi</p>
+          <h2 class="section-title">Produits similaires</h2>
+        </div>
+        <div class="products-grid" id="pdRelatedGrid"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:40px;padding-bottom:24px">
+        <p>© 2026 LoubaShop. Tous droits réservés.</p>
+        <p>Revendeur officiel Minelab – Guinée · Sierra Leone · Liberia · Guinée-Bissau</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="products-data.js"></script>
+  <script src="product.js"></script>
+</body>
+</html>

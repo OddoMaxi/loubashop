@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>LoubaShop – Revendeur Officiel Minelab en Afrique de l'Ouest</title>
+  <meta name="description" content="LoubaShop est le revendeur de confiance des détecteurs d'or Minelab en Guinée, Sierra Leone, Liberia et Guinée-Bissau. Équipements authentiques, accessoires et support expert pour prospecteurs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="brand-icon">◆</span>
+        <span class="brand-name">LOUBA<span class="brand-accent">SHOP</span></span>
+      </div>
+      <nav class="nav-links" id="navLinks">
+        <a href="#accueil">Accueil</a>
+        <a href="#produits">Produits</a>
+        <a href="#categories">Catégories</a>
+        <a href="#avantages">Avantages</a>
+        <a href="#temoignages">Témoignages</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-cart" id="cartBtn" aria-label="Panier">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="btn-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Mon Panier</h3>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Votre panier est vide.</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">0 FCFA</span>
+      </div>
+      <button class="btn-checkout" id="checkoutBtn">Commander Maintenant</button>
+    </div>
+  </aside>
+
+  <!-- ===== CHECKOUT MODAL ===== -->
+  <div class="modal-overlay" id="checkoutOverlay">
+    <div class="modal checkout-modal" id="checkoutModal">
+      <button class="modal-close" id="checkoutClose">✕</button>
+
+      <!-- STEP 1 : FORM -->
+      <div id="checkoutStep1">
+        <div class="modal-content">
+          <p class="section-eyebrow" style="margin-bottom:8px">Validation de commande</p>
+          <h3 style="font-family:var(--font-serif);font-size:1.6rem;color:var(--white);font-weight:300;margin-bottom:6px">Vos coordonnées</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:24px">Remplissez ce formulaire et nous vous contacterons rapidement pour confirmer votre commande.</p>
+
+          <!-- Récapitulatif panier -->
+          <div class="checkout-recap" id="checkoutRecap"></div>
+
+          <form id="checkoutForm" onsubmit="submitOrder(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="oName">Nom complet *</label>
+                <input type="text" id="oName" placeholder="Votre nom" required />
+              </div>
+              <div class="form-group">
+                <label for="oPhone">Téléphone / WhatsApp *</label>
+                <input type="tel" id="oPhone" placeholder="+224 XXX XXX XXX" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="oCountry">Pays *</label>
+                <select id="oCountry" required>
+                  <option value="" disabled selected>Sélectionner votre pays</option>
+                  <option value="Guinée">Guinée</option>
+                  <option value="Sierra Leone">Sierra Leone</option>
+                  <option value="Liberia">Liberia</option>
+                  <option value="Guinée-Bissau">Guinée-Bissau</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="oCity">Ville *</label>
+                <input type="text" id="oCity" placeholder="Votre ville" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="oAddress">Adresse de livraison</label>
+              <input type="text" id="oAddress" placeholder="Quartier, rue, point de repère…" />
+            </div>
+            <div class="form-group">
+              <label for="oNote">Note / Question</label>
+              <textarea id="oNote" rows="3" placeholder="Besoin de plus d'informations sur un produit ? Questions sur la livraison ?"></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+              ✦ Confirmer ma commande
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- STEP 2 : SUCCESS -->
+      <div id="checkoutStep2" style="display:none">
+        <div class="modal-content" style="text-align:center;padding:60px 40px">
+          <div class="success-icon">✦</div>
+          <h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--white);font-weight:300;margin:20px 0 12px">Commande reçue !</h3>
+          <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;max-width:380px;margin:0 auto 8px">Merci pour votre confiance. Notre équipe vous contactera dans les <strong style="color:var(--gold)">24 heures</strong> via WhatsApp ou téléphone pour confirmer votre commande.</p>
+          <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:32px">📞 <strong>+224 627 488 219</strong> &nbsp;|&nbsp; <strong>+1 720 476 2424</strong></p>
+          <button class="btn-primary" onclick="closeCheckout()" style="margin:0 auto">Fermer</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="accueil">
+    <div class="hero-bg">
+      <img src="MANTI-HERO.png" alt="Minelab GPZ 7000" class="hero-img" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Revendeur Officiel Minelab</p>
+      <h1 class="hero-title">Trouvez l'Or.<br /><em>Avec Minelab.</em></h1>
+      <p class="hero-sub">LoubaShop, votre revendeur de confiance de détecteurs d'or <strong>Minelab</strong> authentiques en Guinée, Sierra Leone, Liberia et Guinée-Bissau. Équipements professionnels, accessoires et support expert.</p>
+      <div class="hero-cta">
+        <a href="#produits" class="btn-primary">Découvrir nos produits</a>
+        <a href="#contact" class="btn-outline">Nous contacter</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">4</span><span class="stat-label">Pays desservis</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Minelab Authentique</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">Support Expert</span></div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Défiler</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BAR ===== -->
+  <section class="trust-bar">
+    <div class="trust-items">
+      <div class="trust-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12" y2="20"/></svg>
+        <span>Livraison Internationale</span>
+      </div>
+      <div class="trust-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Garantie 2 Ans</span>
+      </div>
+      <div class="trust-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <span>Paiement Sécurisé</span>
+      </div>
+      <div class="trust-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <span>Support 24/7</span>
+      </div>
+      <div class="trust-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 4 1 11 8 11"/><path d="M3.51 15a9 9 0 102.13-9.36L1 11"/></svg>
+        <span>Retour 30 Jours</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="categories section" id="categories">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Nos Gammes</p>
+        <h2 class="section-title">Explorer par Catégorie</h2>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card" data-filter="gpx">
+          <div class="cat-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Série GPX / GPZ</h3>
+          <p>Les plus performants pour l'or natif en profondeur. Usage professionnel.</p>
+          <span class="cat-count">3 produits</span>
+        </div>
+        <div class="cat-card" data-filter="equinox">
+          <div class="cat-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <h3>Série Equinox</h3>
+          <p>Multi-fréquences, polyvalents, parfaits pour tout type de terrain.</p>
+          <span class="cat-count">2 produits</span>
+        </div>
+        <div class="cat-card" data-filter="gold">
+          <div class="cat-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3>Gold Monster</h3>
+          <p>Idéal pour les prospecteurs débutants et intermédiaires. Simple et efficace.</p>
+          <span class="cat-count">1 produit</span>
+        </div>
+        <div class="cat-card" data-filter="accessoires">
+          <div class="cat-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>Accessoires</h3>
+          <p>Bobines, protections, chargeurs et équipements complémentaires Minelab.</p>
+          <span class="cat-count">2 produits</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS ===== -->
+  <section class="products section" id="produits">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Notre Collection</p>
+        <h2 class="section-title">Nos Équipements Phares</h2>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="gpx">GPX / GPZ</button>
+        <button class="filter-btn" data-filter="equinox">Equinox</button>
+        <button class="filter-btn" data-filter="gold">Gold Monster</button>
+        <button class="filter-btn" data-filter="accessoires">Accessoires</button>
+      </div>
+      <div class="products-grid" id="productsGrid">
+
+        <article class="product-card" data-category="gpx">
+          <div class="product-badge">Bestseller</div>
+          <div class="product-img-wrap" onclick="location.href='product.html?id=0'" style="cursor:pointer">
+            <img src="XTI-Product-Photos-Large-1.png" alt="Minelab GPX 6000" loading="lazy" />
+            <div class="product-actions">
+              <button class="action-btn" onclick="quickView(0)" title="Aperçu rapide">👁</button>
+              <button class="action-btn" onclick="addToCart(0)" title="Ajouter au panier">🛒</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <p class="product-cat">Série GPX – Pro</p>
+            <h3 class="product-name"><a href="product.html?id=0" class="product-link">Minelab GPX 6000</a></h3>
+            <p class="product-desc">Le détecteur d'or le plus avancé de Minelab. Technologie MLXTREME™, détection de pépites ultra-fines en profondeur.</p>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-count">(48 avis)</span>
+            </div>
+            <div class="product-price-row">
+              <span class="price">Demander un devis</span>
+              <button class="btn-add" onclick="addToCart(0)">Ajouter</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="gpx">
+          <div class="product-badge new">Premium</div>
+          <div class="product-img-wrap" onclick="location.href='product.html?id=1'" style="cursor:pointer">
+            <img src="MANTI-HERO.png" alt="Minelab GPZ 7000" loading="lazy" />
+            <div class="product-actions">
+              <button class="action-btn" onclick="quickView(1)" title="Aperçu rapide">👁</button>
+              <button class="action-btn" onclick="addToCart(1)" title="Ajouter au panier">🛒</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <p class="product-cat">Série GPZ – Pro</p>
+            <h3 class="product-name"><a href="product.html?id=1" class="product-link">Minelab GPZ 7000</a></h3>
+            <p class="product-desc">Technologie ZVT™ exclusive, détecte l'or jusqu'à 40% plus profond que tout autre détecteur. Référence mondiale.</p>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-count">(32 avis)</span>
+            </div>
+            <div class="product-price-row">
+              <span class="price">Demander un devis</span>
+              <button class="btn-add" onclick="addToCart(1)">Ajouter</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="gpx">
+          <div class="product-img-wrap" onclick="location.href='product.html?id=2'" style="cursor:pointer">
+            <img src="VANQUISH-540_ProductImage-1.png" alt="Minelab SDC 2300" loading="lazy" />
+            <div class="product-actions">
+              <button class="action-btn" onclick="quickView(2)" title="Aperçu rapide">👁</button>
+              <button class="action-btn" onclick="addToCart(2)" title="Ajouter au panier">🛒</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <p class="product-cat">Série SDC – Pro</p>
+            <h3 class="product-name"><a href="product.html?id=2" class="product-link">Minelab SDC 2300</a></h3>
+            <p class="product-desc">Compact, pliable et waterproof. Technologie Pulse Induction, idéal pour terrains difficiles et ruisseaux aurifères.</p>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-count">(21 avis)</span>
+            </div>
+            <div class="product-price-row">
+              <span class="price">Demander un devis</span>
+              <button class="btn-add" onclick="addToCart(2)">Ajouter</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="equinox">
+          <div class="product-badge promo">Populaire</div>
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder">
+              <img src="Minelab-EQX900-Hero-sized.png" alt="Minelab Equinox 800" style="width:100%;height:100%;object-fit:contain;padding:16px" />
+            </div>
+            <div class="product-actions">
+              <button class="action-btn" onclick="quickView(3)" title="Aperçu rapide">👁</button>
+              <button class="action-btn" onclick="addToCart(3)" title="Ajouter au panier">🛒</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <p class="product-cat">Série Equinox</p>
+            <h3 class="product-name"><a href="product.html?id=3" class="product-link">Minelab Equinox 800</a></h3>
+            <p class="product-desc">Multi-fréquences simultanées MULTI-IQ®. Polyvalent, waterproof, parfait pour l'or et les minéraux variés.</p>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-count">(57 avis)</span>
+            </div>
+            <div class="product-price-row">
+              <span class="price">Demander un devis</span>
+              <button class="btn-add" onclick="addToCart(3)">Ajouter</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="gold">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder alt">
+              <img src="GM-1000_ProductImage.png" alt="Gold Monster 1000" style="width:100%;height:100%;object-fit:contain;padding:16px" />
+            </div>
+            <div class="product-actions">
+              <button class="action-btn" onclick="quickView(4)" title="Aperçu rapide">👁</button>
+              <button class="action-btn" onclick="addToCart(4)" title="Ajouter au panier">🛒</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <p class="product-cat">Gold Monster</p>
+            <h3 class="product-name"><a href="product.html?id=4" class="product-link">Minelab Gold Monster 1000</a></h3>
+            <p class="product-desc">Automatique, simple et redoutablement efficace. Idéal pour débutants et prospecteurs intermédiaires. Résultats immédiats.</p>
+            <div class="product-rating">
+              <span class="stars">★★★★☆</span>
+              <span class="rating-count">(83 avis)</span>
+            </div>
+            <div class="product-price-row">
+              <span class="price">Demander un devis</span>
+              <button class="btn-add" onclick="addToCart(4)">Ajouter</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="accessoires">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder alt2">
+              <img src="GPZ19_LandingPage_Transparent.png" alt="Accessoires Minelab" style="width:100%;height:100%;object-fit:contain;padding:16px" />
+            </div>
+            <div class="product-actions">
+              <button class="action-btn" onclick="quickView(5)" title="Aperçu rapide">👁</button>
+              <button class="action-btn" onclick="addToCart(5)" title="Ajouter au panier">🛒</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <p class="product-cat">Accessoires Officiels</p>
+            <h3 class="product-name"><a href="product.html?id=5" class="product-link">Bobines &amp; Accessoires Minelab</a></h3>
+            <p class="product-desc">Bobines de recherche, protections, chargeurs et accessoires 100% originaux Minelab pour optimiser vos performances terrain.</p>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-count">(29 avis)</span>
+            </div>
+            <div class="product-price-row">
+              <span class="price">Demander un devis</span>
+              <button class="btn-add" onclick="addToCart(5)">Ajouter</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AVANTAGES ===== -->
+  <section class="avantages section" id="avantages">
+    <div class="container">
+      <div class="ava-inner">
+        <div class="ava-text">
+          <p class="section-eyebrow">Pourquoi Nous Choisir</p>
+          <h2 class="section-title">Votre partenaire de confiance<br />pour l'or en Afrique de l'Ouest</h2>
+          <p class="ava-p">LoubaShop est le revendeur de confiance des détecteurs d'or <strong>Minelab</strong> authentiques en Guinée, Sierra Leone, Liberia et Guinée-Bissau. Nous accompagnons aussi bien les prospecteurs professionnels que les débutants avec des équipements de haute performance et un support expert.</p>
+          <ul class="ava-list">
+            <li><span class="ava-check">✦</span> Détecteurs Minelab 100% authentiques et garantis</li>
+            <li><span class="ava-check">✦</span> Service couvrant Guinée, Sierra Leone, Liberia &amp; Guinée-Bissau</li>
+            <li><span class="ava-check">✦</span> Formation et assistance à l'utilisation incluses</li>
+            <li><span class="ava-check">✦</span> Support expert pour prospecteurs pro et débutants</li>
+            <li><span class="ava-check">✦</span> Qualité, authenticité et satisfaction client garanties</li>
+          </ul>
+          <a href="#produits" class="btn-primary">Voir nos produits</a>
+        </div>
+        <div class="ava-cards">
+          <div class="ava-card">
+            <div class="ava-num">01</div>
+            <h4>Authenticité Minelab</h4>
+            <p>Tous nos équipements sont 100% originaux Minelab, avec garantie constructeur et certificat d'authenticité.</p>
+          </div>
+          <div class="ava-card">
+            <div class="ava-num">02</div>
+            <h4>Couverture Régionale</h4>
+            <p>Nous servons la Guinée, la Sierra Leone, le Liberia et la Guinée-Bissau avec livraison rapide et sécurisée.</p>
+          </div>
+          <div class="ava-card">
+            <div class="ava-num">03</div>
+            <h4>Support Expert</h4>
+            <p>Notre équipe de spécialistes vous guide dans le choix de votre détecteur et vous forme à son utilisation.</p>
+          </div>
+          <div class="ava-card">
+            <div class="ava-num">04</div>
+            <h4>Pour Tous Niveaux</h4>
+            <p>Du débutant au prospecteur professionnel, nous avons le détecteur adapté à chaque besoin et budget.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TEMOIGNAGES ===== -->
+  <section class="temoignages section" id="temoignages">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Ce que disent nos clients</p>
+        <h2 class="section-title">Témoignages</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Le GPX 6000 a complètement transformé notre prospection en Guinée. En seulement 2 mois, nous avons localisé des filons que nous cherchions depuis des années. LoubaShop nous a livré un matériel 100% authentique!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">MB</div>
+            <div>
+              <strong>Mamadou Baldé</strong>
+              <span>Prospecteur professionnel, Guinée</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card featured">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Service impeccable, équipements Minelab authentiques et formation à l'utilisation incluse. Le GPZ 7000 surpasse toutes mes attentes. L'équipe LoubaShop nous a accompagnés à chaque étape. Je recommande!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">AK</div>
+            <div>
+              <strong>Alpha Koroma</strong>
+              <span>Directeur minier, Sierra Leone</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"J'ai commandé un Gold Monster 1000 depuis le Liberia. Livraison rapide, détecteur original Minelab, support toujours disponible. LoubaShop est définitivement le meilleur revendeur de la région!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">JT</div>
+            <div>
+              <strong>James Tamba</strong>
+              <span>Prospecteur, Liberia</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-inner">
+        <div class="nl-text">
+          <h3>Restez Informé</h3>
+          <p>Recevez nos offres exclusives, nouveautés et conseils de prospection directement dans votre boîte mail.</p>
+        </div>
+        <form class="nl-form" onsubmit="subscribeNewsletter(event)">
+          <input type="email" id="nlEmail" placeholder="Votre adresse email" required />
+          <button type="submit" class="btn-primary">S'abonner</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact-section section" id="contact">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Parlons</p>
+        <h2 class="section-title">Contactez-nous</h2>
+      </div>
+      <div class="contact-inner">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <strong>Zones desservies</strong>
+              <p>Guinée · Sierra Leone · Liberia · Guinée-Bissau</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <strong>Téléphone / WhatsApp</strong>
+              <p>+224 627 488 219 &nbsp;|&nbsp; +1 720 476 2424</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <strong>Email</strong>
+              <p>contact@loubashop.com</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <strong>Horaires</strong>
+              <p>Lun – Sam : 08h00 – 18h00</p>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="submitContact(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cName">Nom complet</label>
+              <input type="text" id="cName" placeholder="Votre nom" required />
+            </div>
+            <div class="form-group">
+              <label for="cEmail">Email</label>
+              <input type="email" id="cEmail" placeholder="Votre email" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cSubject">Sujet</label>
+            <input type="text" id="cSubject" placeholder="Sujet de votre message" />
+          </div>
+          <div class="form-group">
+            <label for="cMsg">Message</label>
+            <textarea id="cMsg" rows="5" placeholder="Décrivez votre besoin..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Envoyer le Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <span class="brand-icon">◆</span>
+            <span class="brand-name">LOUBA<span class="brand-accent">SHOP</span></span>
+          </div>
+          <p>Revendeur de confiance des détecteurs d'or Minelab authentiques en Guinée, Sierra Leone, Liberia et Guinée-Bissau. Qualité, authenticité et satisfaction client garanties.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">f</a>
+            <a href="#" aria-label="Instagram">ig</a>
+            <a href="#" aria-label="WhatsApp">wa</a>
+            <a href="#" aria-label="YouTube">yt</a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Produits</h4>
+          <ul>
+            <li><a href="#produits">GPX 6000</a></li>
+            <li><a href="#produits">GPZ 7000</a></li>
+            <li><a href="#produits">SDC 2300</a></li>
+            <li><a href="#produits">Gold Monster 1000</a></li>
+            <li><a href="#produits">Equinox 800</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Informations</h4>
+          <ul>
+            <li><a href="#">À propos</a></li>
+            <li><a href="#">Politique de livraison</a></li>
+            <li><a href="#">Retours & Garanties</a></li>
+            <li><a href="#">Mentions légales</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#contact">Contactez-nous</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Guide d'utilisation</a></li>
+            <li><a href="#">Demander un devis</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 LoubaShop. Tous droits réservés.</p>
+        <p>Conçu avec excellence pour des prospecteurs d'exception.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== QUICK VIEW MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="productModal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="products-data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
