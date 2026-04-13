@@ -453,4 +453,20 @@ const statsObserver = new IntersectionObserver(entries => {
 const heroStats = document.querySelector('.hero-stats');
 if (heroStats) statsObserver.observe(heroStats);
 
+/* ---------- THEME TOGGLE ---------- */
+const themeToggle = document.getElementById('themeToggle');
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('ls_theme', theme);
+}
+
+// Apply saved theme on load (also handled by inline script in <head>)
+applyTheme(localStorage.getItem('ls_theme') || 'dark');
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
 console.log('%cLoubaShop ◆ Prêt', 'color:#c9a84c;font-size:16px;font-weight:bold;');

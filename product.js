@@ -306,6 +306,15 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
 }
 
+/* --- Theme toggle --- */
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('ls_theme', next);
+});
+
 /* --- Init --- */
 renderCart();
 renderProduct();

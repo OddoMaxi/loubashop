@@ -26,6 +26,20 @@
   --font-sans: 'Outfit', system-ui, sans-serif;
 }
 
+/* ----- LIGHT MODE ----- */
+[data-theme="light"] {
+  --dark: #f7f4ee;
+  --dark2: #ffffff;
+  --dark3: #eeeadf;
+  --dark4: #e5e1d5;
+  --text: #1c1c2e;
+  --text-muted: #6b6b8a;
+  --white: #0a0a1a;
+  --card-bg: rgba(0,0,0,0.03);
+  --card-border: rgba(150,120,40,0.2);
+  --shadow: 0 8px 40px rgba(0,0,0,0.1);
+}
+
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
@@ -868,6 +882,56 @@ input, textarea { font-family: inherit; }
 @keyframes popIn {
   from { transform: scale(0); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* ----- THEME TOGGLE BUTTON ----- */
+.btn-theme {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--card-border);
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.btn-theme:hover { border-color: var(--gold); color: var(--gold); transform: rotate(20deg); }
+.btn-theme .icon-sun  { display: block; }
+.btn-theme .icon-moon { display: none; }
+[data-theme="light"] .btn-theme .icon-sun  { display: none; }
+[data-theme="light"] .btn-theme .icon-moon { display: block; }
+
+/* ----- LIGHT MODE HARDCODED OVERRIDES ----- */
+[data-theme="light"] .navbar.scrolled {
+  background: rgba(247,244,238,0.97);
+  border-bottom-color: rgba(150,120,40,0.2);
+}
+[data-theme="light"] .nav-links.open {
+  background: rgba(247,244,238,0.99);
+}
+[data-theme="light"] .action-btn {
+  background: rgba(255,255,255,0.9);
+}
+[data-theme="light"] .product-img-placeholder,
+[data-theme="light"] .product-img-placeholder.alt,
+[data-theme="light"] .product-img-placeholder.alt2 {
+  background: var(--dark3);
+}
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group textarea,
+[data-theme="light"] .form-group select,
+[data-theme="light"] .nl-form input {
+  background: rgba(0,0,0,0.04);
+  color: var(--text);
+}
+[data-theme="light"] .form-group input::placeholder,
+[data-theme="light"] .form-group textarea::placeholder,
+[data-theme="light"] .nl-form input::placeholder { color: var(--text-muted); }
+[data-theme="light"] .form-group select option { background: #fff; color: #1c1c2e; }
+[data-theme="light"] .modal-overlay { background: rgba(0,0,0,0.5); }
+[data-theme="light"] .cart-item { border-bottom-color: rgba(0,0,0,0.07); }
+[data-theme="light"] .recap-item { border-bottom-color: rgba(0,0,0,0.06); }
+[data-theme="light"] .testi-card.featured {
+  background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.04));
 }
 
 /* ----- RESPONSIVE ----- */
